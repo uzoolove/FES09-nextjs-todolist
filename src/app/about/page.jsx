@@ -1,5 +1,5 @@
 async function About(){
-  await new Promise(resolve => setTimeout(resolve, 10000));
+  // await new Promise(resolve => setTimeout(resolve, 10000));
   return (
     <div id="main">
       <h2>About</h2>

@@ -1,26 +1,23 @@
 import TodoItem from "@/app/list/TodoItem";
-import { list } from "@/db/todo";
 import { unstable_noStore as noStore } from 'next/cache';
 
-const API_SERVER = 'http://localhost:33020/api';
-// export const API_SERVER = 'https://todo-api.frontendschool.shop/api';
+export async function getTodoList(searchParams){
+  console.log('searchParams', searchParams)
+  // await new Promise(resolve => setTimeout(resolve, 5000));
+  const res = await fetch(`http://localhost:3000/api/todolist`, {
+    // ...searchParams,
+    // false(무기한 캐시) | 0(캐시 안함) | number(초)
+    // next: { revalidate: 60 },
+    cache: "no-store",
+  });
+  const json = await res.json();
+  console.log(new Date())
+  return json;
+}
 
-// export async function getTodoList(){
-//   noStore();
-//   // await new Promise(resolve => setTimeout(resolve, 5000));
-//   const res = await fetch(`${ API_SERVER }/todolist?t=${new Date().getTime()}`, {
-//     // false(무기한 캐시) | 0(캐시 안함) | number(초)
-//     // next: { revalidate: 60 },
-//     // cache: "no-store",
-//   });
-//   const json = await res.json();
-//   console.log(new Date())
-//   return json;
-// }
-
-export default async function TodoList(){
-  // const data = await getTodoList();
-  const data = await list();
+export default async function TodoList({ searchParams }){
+  const data = await getTodoList(searchParams);
+  // const data = await list();
 
   const itemList = data.items.map(item => <TodoItem key={ item._id } item={ item } />);
 

@@ -1,19 +1,11 @@
 import TodoEditForm from "@/app/list/[_id]/edit/TodoEditForm";
 import Link from "next/link";
-import { findById } from '@/db/todo';
+import { findById } from '@/app/actions';
+import { getTodoItem } from "@/app/list/[_id]/page";
 
-// const API_SERVER = 'http://localhost:33020/api';
-// const API_SERVER = 'https://todo-api.frontendschool.shop/api';
-
-// async function getTodo(_id){
-//   const res = await fetch(`${ API_SERVER }/todolist/${_id}`);
-//   const json = await res.json();
-//   return json;
-// }
 
 export default async function TodoEdit({ params: { _id } }){
-  const item = await findById(Number(_id));
-  // const { item } = await getTodo(_id);
+  const { item } = await getTodoItem(_id);
   
 
   return (

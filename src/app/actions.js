@@ -1,27 +1,58 @@
 'use server';
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { db } from '@/db';
 
-const API_SERVER = 'http://localhost:33020/api';
-// const API_SERVER = 'https://todo-api.frontendschool.shop/api';
+import _ from 'lodash';
+import moment from 'moment';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
-export async function updateTodo(_id, formData){
-  const todo = {
-    _id,
-    title: formData.get('title'),
-    content: formData.get('content'),
-    done: formData.get('done') === 'on' ? true : false, // submit으로 서버에 전달된 체크박스는 체크되어 있을때 "on" 그렇지 않으면 null
+import { revalidatePath } from 'next/cache.js';
+
+// 할일 등록
+export async function create(todo){
+  const nextId = ++db.data.nextId.items;
+  let createdAt = moment().format('YYYY.MM.DD HH:mm:ss');
+  const newTodo = {
+    _id: nextId,
+    ...todo,
+    done: false,
+    createdAt,
+    updatedAt: createdAt,
   };
+  db.data.items.push(newTodo);
+  db.write();
+  revalidatePath('/list');
+  return newTodo;
+};
 
-  await fetch(`${ API_SERVER }/todolist/${todo._id}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(todo)
-  });
-  // const json = await res.json();
-  revalidatePath(`/list/${_id}`); // 목록은 새로고침 되지만 상세정보는 여전히 캐시되어 있어서 이전 값을 가지고 있기 때문에 캐시를 무효화 시켜야 함
-  redirect('/list');
+// 할일 수정
+export async function update(_id, todo){
+  const index = _.findLastIndex(db.data.items, { _id });
+  if(index < 0){
+    return;
+  }
+  const oldTodo = db.data.items[index];
+  const updatedAt = moment().format('YYYY.MM.DD HH:mm:ss');
+  const newTodo = {...oldTodo, ...todo, updatedAt};
+  db.data.items.splice(index, 1, newTodo);
+  // db.write();
+  revalidatePath('/list');
+  revalidatePath(`/list/${ _id }`);
+  revalidatePath(`/list/${ _id }/edit`);
+  return newTodo;
+};
+
+// 할일 삭제
+export async function remove(_id){
+  const result = _.remove(db.data.items, todo => todo._id == _id);
+  db.write();
+  return result.length;
+};
+
+// DB 초기화
+export async function init(){
+  await fs.rm(path.join(process.cwd(), 'src', 'db', 'todolist.json'));
+  initDB();
+  return list();
 };

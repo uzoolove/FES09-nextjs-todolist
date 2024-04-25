@@ -1,12 +1,10 @@
 'use client';
 
-import { updateTodo } from "@/app/actions";
 import Link from "next/link";
 import { useState } from "react";
-// import { update } from '@/db/todo';
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { update } from '@/db/todo';
+import { update } from '@/app/actions';
 
 export default function TodoEditForm({ item }){
   const [title, setTitle] = useState(item.title);
@@ -19,7 +17,7 @@ export default function TodoEditForm({ item }){
       content: formData.get('content'),
       done: formData.get('done') === 'on' ? true : false, // submit으로 서버에 전달된 체크박스는 체크되어 있을때 "on" 그렇지 않으면 null
     });
-    
+    // revalidatePath(`/list/${ item._id }`);
     redirect('/list');
   };
   // const todoUpdate = todo.update.bind(null, item._id);
@@ -48,7 +46,7 @@ export default function TodoEditForm({ item }){
       <input type="checkbox" id="done" name="done" checked={ done ? 'checked' : '' } onChange={ (e) => setDone(e.target.checked) } />
       <br/>
       <button type="submit">수정</button>
-      <Link href="/list">취소</Link>
+      <Link href={`/list/${ item._id }`}>취소</Link>
     </form>
   );
 }

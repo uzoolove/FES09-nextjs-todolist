@@ -1,19 +1,20 @@
 import Link from "next/link";
-import { findById } from '@/db/todo';
 
 // const API_SERVER = 'http://localhost:33020/api';
 // const API_SERVER = 'https://todo-api.frontendschool.shop/api';
 
-// export async function getTodoItem(_id){
-//   const res = await fetch(`${ API_SERVER }/todolist/${_id}`);
-//   const json = await res.json();
-//   // await new Promise(resolve => setTimeout(resolve, 2000));
-//   return json;
-// }
+export async function getTodoItem(_id){
+  const res = await fetch(`http://localhost:3000/api/todolist/${_id}`, {
+    next: { revalidate: 10 },
+  });
+  
+  const data = await res.json();
+  // await new Promise(resolve => setTimeout(resolve, 2000));
+  return data;
+}
 
 export default async function TodoDetail({ params: { _id } }){
-  const item = await findById(Number(_id));
-  // const { item } = await getTodoItem(_id);
+  const { item } = await getTodoItem(_id);
   return (
     <div id="main">
       <h2>할일 상세 보기</h2>

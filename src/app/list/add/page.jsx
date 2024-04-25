@@ -1,7 +1,7 @@
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { create } from "@/db/todo";
+import { create } from "@/app/actions";
 
 // const API_SERVER = 'http://localhost:33020/api';
 
@@ -13,19 +13,6 @@ export default function TodoAdd(){
       content: formData.get('content'),
     });
 
-    // const res = await fetch(`${ API_SERVER }/todolist`, {
-    //   method: 'post',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({ 
-    //     title: formData.get('title'),
-    //     content: formData.get('content'),
-    //   })
-    // });
-    // const json = await res.json();
-    // console.log(json);
-    // revalidatePath(`/list`);
     redirect('/list');
   };
 
