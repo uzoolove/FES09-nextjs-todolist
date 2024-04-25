@@ -1,3 +1,6 @@
+.history
+src/db/todolist.json
+
 # Logs
 logs
 *.log
