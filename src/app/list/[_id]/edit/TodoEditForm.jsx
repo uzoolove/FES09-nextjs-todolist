@@ -6,8 +6,9 @@ import { useState } from "react";
 // import { update } from '@/db/todo';
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { update } from '@/db/todo';
 
-export default function TodoEditForm({ item, update }){
+export default function TodoEditForm({ item }){
   const [title, setTitle] = useState(item.title);
   const [content, setContent] = useState(item.content);
   const [done, setDone] = useState(item.done);

@@ -1,6 +1,6 @@
 import TodoEditForm from "@/app/list/[_id]/edit/TodoEditForm";
 import Link from "next/link";
-import { findById, update } from '@/db/todo';
+import { findById } from '@/db/todo';
 
 // const API_SERVER = 'http://localhost:33020/api';
 // const API_SERVER = 'https://todo-api.frontendschool.shop/api';
@@ -20,7 +20,7 @@ export default async function TodoEdit({ params: { _id } }){
     <div id="main">
       <h2>할일 수정</h2>
       <div className="todo">
-        <TodoEditForm item={ item } update={ update } />
+        <TodoEditForm item={ item } />
       </div>
     </div>
   );
