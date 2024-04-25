@@ -3,7 +3,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { create } from "@/app/actions";
 
-// const API_SERVER = 'http://localhost:33020/api';
+export const metadata = {
+  title: '새 할일'
+}
 
 export default function TodoAdd(){
   const handleAdd = async (formData) => {

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { remove } from '@/app/actions';
 import { redirect } from "next/navigation";
 
-export default function TodoItem({ item }){
+export default function TodoListItem({ item }){
   const handleDelete = async () => {
     'use server';
     await remove(item._id);
@@ -14,7 +14,7 @@ export default function TodoItem({ item }){
     <li>
       <form>
         <span>{ item._id }</span>
-        <Link /*prefetch*/ href={`/list/${ item._id }`}>{ item.done ? <s>{ item.title }</s> : item.title }</Link>
+        <Link prefetch={false} href={`/list/${ item._id }`}>{ item.done ? <s>{ item.title }</s> : item.title }</Link>
         
         <button type="submit" formAction={ handleDelete }>삭제</button>
       </form>

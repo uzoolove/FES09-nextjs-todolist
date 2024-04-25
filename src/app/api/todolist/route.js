@@ -8,8 +8,6 @@ export async function GET(req) {
   let page = req.nextUrl.searchParams.get('page');
   let limit = req.nextUrl.searchParams.get('limit');
 
-  console.log(keyword)
-
   let items = db.data.items;
 
   // 검색어

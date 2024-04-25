@@ -1,3 +1,7 @@
+export const metadata = {
+  title: 'About'  
+}
+
 async function About(){
   // await new Promise(resolve => setTimeout(resolve, 10000));
   return (

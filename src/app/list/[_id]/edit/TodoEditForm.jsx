@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { redirect, useRouter } from "next/navigation";
 import { update } from '@/app/actions';
 
 export default function TodoEditForm({ item }){
   const [title, setTitle] = useState(item.title);
   const [content, setContent] = useState(item.content);
   const [done, setDone] = useState(item.done);
+  const router = useRouter();
 
   const handleUpdate = async (formData) => {
     await update(item._id, { 
@@ -17,22 +17,10 @@ export default function TodoEditForm({ item }){
       content: formData.get('content'),
       done: formData.get('done') === 'on' ? true : false, // submit으로 서버에 전달된 체크박스는 체크되어 있을때 "on" 그렇지 않으면 null
     });
-    // revalidatePath(`/list/${ item._id }`);
-    redirect('/list');
-  };
-  // const todoUpdate = todo.update.bind(null, item._id);
 
-  // const handleUpdate = (formData) => {
-  //   console.log('formData', formData);
-  //   const todo = {
-  //     _id: item._id,
-  //     title: formData.get('title'),
-  //     content: formData.get('content'),
-  //     done: formData.get('done') === 'on' ? true : false, // submit으로 서버에 전달된 체크박스는 체크되어 있을때 "on" 그렇지 않으면 null
-  //   };
-  //   console.log(todo);
-  //   updateTodo(todo);
-  // };
+    router();
+    // redirect('/list');
+  };
 
   return (
     <form action={ handleUpdate }>

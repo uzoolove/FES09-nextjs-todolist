@@ -1,8 +1,11 @@
-import TodoItem from "@/app/list/TodoItem";
-import { unstable_noStore as noStore } from 'next/cache';
+import TodoItem from "@/app/list/TodoListItem";
+
+export const metadata = {
+  title: '할일 목록'  
+}
 
 export async function getTodoList(searchParams){
-  console.log('searchParams', searchParams)
+  console.log('목록 조회', searchParams);
   // await new Promise(resolve => setTimeout(resolve, 5000));
   const res = await fetch(`http://localhost:3000/api/todolist`, {
     // ...searchParams,
@@ -17,7 +20,6 @@ export async function getTodoList(searchParams){
 
 export default async function TodoList({ searchParams }){
   const data = await getTodoList(searchParams);
-  // const data = await list();
 
   const itemList = data.items.map(item => <TodoItem key={ item._id } item={ item } />);
 

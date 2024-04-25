@@ -1,0 +1,33 @@
+{
+  "items": [
+    {
+      "_id": 1,
+      "title": "Javascript 공부",
+      "content": "열심히 하자",
+      "done": true,
+      "createdAt": "2024.04.23 12:07:55",
+      "updatedAt": "2024.04.23 13:07:55"
+    },
+    {
+      "_id": 2,
+      "title": "Closure 자세히 공부",
+      "content": "제일 어려웠음",
+      "done": false,
+      "createdAt": "2024.04.23 14:07:55",
+      "updatedAt": "2024.04.23 16:07:55"
+    },
+    {
+      "_id": 3,
+      "title": "Promise 복습",
+      "content": "async/await도 같이 공부",
+      "done": false,
+      "createdAt": "2024.04.24 08:07:55",
+      "updatedAt": "2024.04.24 12:07:55"
+    }
+  ],
+  "users": [],
+  "nextId": {
+    "items": 4,
+    "users": 1
+  }
+}

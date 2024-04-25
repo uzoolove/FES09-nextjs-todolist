@@ -1,7 +1,15 @@
 import Link from "next/link";
 
-// const API_SERVER = 'http://localhost:33020/api';
-// const API_SERVER = 'https://todo-api.frontendschool.shop/api';
+// export const metadata = {
+//   title: '할일 보기'
+// }
+
+export async function generateMetadata({ params: { _id } }){
+  const { item } = await getTodoItem(_id);
+  return {
+    title: item.title
+  };
+}
 
 export async function getTodoItem(_id){
   const res = await fetch(`http://localhost:3000/api/todolist/${_id}`, {
